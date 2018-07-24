@@ -21,16 +21,16 @@ class Historico {
 	// MÉTODOS
 	
 	// CONSTRUCT PARA SETTAR TODOS OS VALORES NO OBJETO, COM EXCEÇÃO DO HISTÓRICO
-	public function __construct($idEmpresa, $areaAdm, $areaFis = "", $nomeResponsavel, $matriculaResponsavel){
+	public function __construct($pv, $usuario){
 
-		if ($areaFis != 0) {
-			$this->setArea($areaFis);
+		if ($usuario->getLotacaoFisica() != 0) {
+			$this->setArea($usuario->getLotacaoFisica());
 		} else {
-			$this->setArea($areaAdm);
+			$this->setArea($usuario->getLotacaoAdm());
 		}
-		$this->setIdEmpresa($idEmpresa);
-		$this->setNomeResponsavel($nomeResponsavel);
-		$this->setMatriculaResponsavel($matriculaResponsavel);
+		$this->setIdEmpresa($pv->getIdEmpresa());
+		$this->setNomeResponsavel($usuario->getNome());
+		$this->setMatriculaResponsavel($usuario->getMatricula());
 		$this->setData();
 		$this->setTipoAcao();
 	}

@@ -10,9 +10,9 @@ class Sql extends PDO {
 	
 	// CRIA A CONEXÃO NO BANCO AUTOMATICAMENTE, ASSIM QUE CRIAR UM OBJETO SQL
 	public function __construct(){
-	// 	/* MÉTODO COM REQUIRE */
-	// 	//require_once("../../includes/database/sqlsrv.php");// TESTE VLAD
-		include("../../../includes/database/sqlsrv.php");//TESTES CHUMAN
+
+		/* MÉTODO COM REQUIRE */
+		include("../../include_comex/comex/sqlsrv.php");
 
 		$this->conn = new PDO("sqlsrv:Database=$db_name;server=$db_host",$db_user,$db_pass);
 		

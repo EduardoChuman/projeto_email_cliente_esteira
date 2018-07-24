@@ -55,21 +55,21 @@
 	// CRIAÇÃO DO OBJETO EMPREGADO
 	$usuario = new Empregado();
 	
-	// // CRIA UM OBJETO EMPRESA
-	$pv = new Empresa();
+	// CRIA UM OBJETO EMPRESA
+	 $pv = new Empresa();
 
-	// FUNÇÃO PARA SETTAR A RELAÇÃO DAS EMPRESAS COM BASE NO PERFIL DE ACESSO, LOTAÇÃO FÍSICA OU LOTAÇÃO ADMINISTRATIVA
-	$pv->getEmpresas($usuario);
+	// // FUNÇÃO PARA SETTAR A RELAÇÃO DAS EMPRESAS COM BASE NO PERFIL DE ACESSO, LOTAÇÃO FÍSICA OU LOTAÇÃO ADMINISTRATIVA
+	// $pv->getEmpresas($usuario);
 
-	//FUNÇÃO PARA TRAZER EM JSON A RELAÇÃO DE EMPRESAS DISPONÍVEIS
-	echo json_encode($pv->getListaEmpresa(), JSON_UNESCAPED_SLASHES);
+	// //FUNÇÃO PARA TRAZER EM JSON A RELAÇÃO DE EMPRESAS DISPONÍVEIS
+	// echo json_encode($pv->getListaEmpresa(), JSON_UNESCAPED_SLASHES);
 	
 
 	// SIMULAÇÃO DE COMO REALIZAR O REGISTRO DE UM HISTÓRICO
-	// $hist = new Historico(1, $usuario->getLotacaoAdm(), $usuario->getLotacaoFisica(), $usuario->getNome(), $usuario->getMatricula());
+	$hist = new Historico($pv, $usuario);
 
-	// $hist->setHistorico("edu.chuman@hotmail.com");
-	// echo $hist;
+	$hist->setHistorico("edu.chuman@hotmail.com");
+	echo $hist;
 
 	?>
 	<!-- INICIO DO CADASTRO DO E-MAIL -->

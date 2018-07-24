@@ -272,16 +272,22 @@ class Empresa {
 							FROM 
 								tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 							WHERE
-								[NOME_CLIENTE] LIKE :SEARCH", array(':SEARCH'=>"%" . $empresa . "%"));
-
-			
+								[NOME_CLIENTE] LIKE :SEARCH", array(':SEARCH'=>"%" . $empresa . "%"));	
 
 	}
 
 
 	// FUNÇÃO QUE TRAZ TODOS OS RESULTADOS DE UM SELECT COM WHERE NO CO_PV (TRAZ TODOS OS REGISTROS DA AGÊNCIA)
-	public function loadByPv($codPv){
+	public function loadByPv($usuario){
 
+		// SIMULAR OUTRO PERFIL DE ACESSO
+		// if ($usuario->getMatricula() == 'c111710') {
+			
+		// 	$usuario->setLotacaoFisica('1599');
+		// 	$usuario->setLotacaoAdm('1599');
+
+		// }
+		
 		$sql = new Sql();
 
 		$result = $sql->select("SELECT 
@@ -294,7 +300,7 @@ class Empresa {
 								FROM 
 									tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 								WHERE
-									[CO_PV] = :PV", array(":PV"=>$codPv));
+									[CO_PV] = :PV", array(":PV"=>$usuario->getLotacaoAdm()));
 
 		// echo json_encode($result, JSON_UNESCAPED_SLASHES);
 		$this->setListaEmpresa($result);
@@ -302,7 +308,15 @@ class Empresa {
 	}
 
 	// FUNÇÃO QUE TRAZ TODOS OS RESULTADOS DE UM SELECT COM WHERE NO CO_SR (TRAZ TODOS OS REGISTROS DA SUPERITENDÊNCIA)
-	public function loadBySr($codSr){
+	public function loadBySr($usuario){
+
+		// SIMULAR OUTRO PERFIL DE ACESSO
+		// if ($usuario->getMatricula() == 'c111710') {
+			
+		// 	$usuario->setLotacaoFisica('1599');
+		// 	$usuario->setLotacaoAdm('1599');
+
+		// }
 
 		$sql = new Sql();
 
@@ -317,7 +331,7 @@ class Empresa {
 								FROM 
 									tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 								WHERE
-									[CO_SR] = :SR", array(":SR"=>$codSr));
+									[CO_SR] = :SR", array(":SR"=>$usuario->getLotacaoAdm()));
 
 		// echo json_encode($result, JSON_UNESCAPED_SLASHES);
 		$this->setListaEmpresa($result);
@@ -361,7 +375,15 @@ class Empresa {
 	}
 
 	// FUNÇÃO QUE TRAZ A RELAÇÃO DE TODAS AS EMPRESAS DE UM PV OU SR
-	public function loadByPvOuSr($cod){
+	public function loadByPvOuSr($usuario){
+
+		// SIMULAR OUTRO PERFIL DE ACESSO
+		// if ($usuario->getMatricula() == 'c111710') {
+			
+		// 	$usuario->setLotacaoFisica('1599');
+		// 	$usuario->setLotacaoAdm('1599');
+
+		// }
 
 		$sql = new Sql();
 
@@ -376,7 +398,7 @@ class Empresa {
 								FROM 
 									tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 								WHERE
-									[CO_PV] = :PV", array(":PV"=>$cod));
+									[CO_PV] = :PV", array(":PV"=>$usuario->getLotacaoAdm()));
 		
 		/*
 			AQUI VERIFICA QUE O SELECT RETORNOU ALGUM RESULTADO. CASO: 
@@ -404,7 +426,7 @@ class Empresa {
 									FROM 
 										tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 									WHERE
-										[CO_SR] = :SR", array(":SR"=>$cod));
+										[CO_SR] = :SR", array(":SR"=>$usuario->getLotacaoAdm()));
 		
 		/*
 			AQUI VERIFICA QUE O SELECT RETORNOU ALGUM RESULTADO. CASO: 
@@ -429,7 +451,7 @@ class Empresa {
 	}
 
 	// FUNÇÃO PARA INSERIR E-MAIL NA TABELA [tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO]
-	public function updateEmail($cnpj, $emailPrincipal = "", $emailSecundario = "", $emailReserva = ""){
+	public function updateEmail($cnpj, $emailPrincipal = null, $emailSecundario = null, $emailReserva = null){
 
 		$this->setCnpj($cnpj);
 		$this->setEmailPrincipal($emailPrincipal);
