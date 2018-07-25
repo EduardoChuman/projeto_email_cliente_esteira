@@ -12,6 +12,7 @@ class Historico {
 	// DEFINIÇÃO DOS ATRIBUTOS
 	private $data;
 	private $idEmpresa;
+	private $cnpj;
 	private $tipoAcao;
 	private $area;
 	private $nomeResponsavel;
@@ -21,16 +22,17 @@ class Historico {
 	// MÉTODOS
 	
 	// CONSTRUCT PARA SETTAR TODOS OS VALORES NO OBJETO, COM EXCEÇÃO DO HISTÓRICO
-	public function __construct($pv, $usuario){
+	public function __construct($objEmpresa, $objEmpregado){
 
-		if ($usuario->getLotacaoFisica() != 0) {
-			$this->setArea($usuario->getLotacaoFisica());
+		if ($objEmpregado->getLotacaoFisica() != 0) {
+			$this->setArea($objEmpregado->getLotacaoFisica());
 		} else {
-			$this->setArea($usuario->getLotacaoAdm());
+			$this->setArea($objEmpregado->getLotacaoAdm());
 		}
-		$this->setIdEmpresa($pv->getIdEmpresa());
-		$this->setNomeResponsavel($usuario->getNome());
-		$this->setMatriculaResponsavel($usuario->getMatricula());
+		$this->setIdEmpresa($objEmpresa->getIdEmpresa());
+		$this->setCnpj($objEmpresa->getCnpj());
+		$this->setNomeResponsavel($objEmpregado->getNome());
+		$this->setMatriculaResponsavel($objEmpregado->getMatricula());
 		$this->setData();
 		$this->setTipoAcao();
 	}
@@ -40,6 +42,7 @@ class Historico {
 
 		return json_encode(array(
 			"ID_EMPRESA"=>$this->getIdEmpresa(),
+			"CNPJ"=>$this->getCnpj(),
 			"DATA"=>$this->getData(),
 			"ACAO"=>$this->getTipoAcao(),
 			"NOME_RESPONSAVEL"=>$this->getNomeResponsavel(),
@@ -68,6 +71,14 @@ class Historico {
 		$this->idEmpresa = $value;
 	}
 
+	// $cnpj
+	public function getCnpj(){
+		return $this->cnpj;
+	}
+	public function setCnpj($value){
+		$this->cnpj = $value;
+	}
+
 	// $tipoAcao
 	public function getTipoAcao(){
 		return $this->tipoAcao;
@@ -92,7 +103,6 @@ class Historico {
 		$this->nomeResponsavel = $value;
 	}
 
-
 	// $matriculaResponsavel
 	public function getMatriculaResponsavel(){
 		return $this->matriculaResponsavel;
@@ -108,8 +118,74 @@ class Historico {
 	public function setHistorico($emailPrincipal = "nao foi alterado", $emailSecundario = "nao foi alterado", $emailReserva = "nao foi alterado"){
 
 		$this->historico = "ALTERACAO NO CADASTRO - e-mail principal: $emailPrincipal; e-mail secundario: $emailSecundario e e-mail reserva: $emailReserva.";
+
+	}
+
+	public function registraHistorico($objEmpresa, $objEmpregado){
+
+		$sql = new Sql();
+
+		$registraHist = $sql->beginTransaction();
+
+		try {
+
+			$registraHist = $sql->select("INSERT INTO [dbo].[tbl_SIEXC_OPES_EMAIL_HISTORICO]
+											(
+												[CNPJ]
+												,[ACAO]
+												,[HISTORICO]
+												,[COD_MATRICULA]
+												,[CO_PV]
+											)
+										VALUES
+											(
+												:CNPJ,
+												:ACAO,
+												:HISTORICO,
+												:COD_MATRICULA,
+												:CO_PV
+											)", array(
+												':CNPJ'=>$this->getCnpj(),
+												':ACAO'=>$this->getTipoAcao(),
+												':HISTORICO'=>$this->getHistorico(),
+												':COD_MATRICULA'=>$this->getMatriculaResponsavel(),
+												':CO_PV'=>$this->getArea()
+										));
+
+			$registraHist = $sql->query("UPDATE [dbo].[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO]
+										SET										
+											[EMAIL_PRINCIPAL] = :EMAIL_PRINCIPAL
+											,[EMAIL_SECUNDARIO] = :EMAIL_SECUNDARIO
+											,[EMAIL_RESERVA] = :EMAIL_RESERVA
+											,[CO_PV] = :CO_PV
+											,[CO_SR] = :CO_SR
+											,[MATRICULA_RESP] = :MATRICULA_RESP
+											,[NOME_RESP] = :NOME_RESP
+										WHERE
+											[CNPJ] = :CNPJ", array(
+											':CNPJ'=>$objEmpresa->getCnpj(),
+											':EMAIL_PRINCIPAL'=>$objEmpresa->getEmailPrincipal(),
+											':EMAIL_SECUNDARIO'=>$objEmpresa->getEmailSecundario(),
+											':EMAIL_RESERVA'=>$objEmpresa->getEmailReserva(),
+											':CO_PV'=>$objEmpresa->getCodPv(),
+											':CO_SR'=>$objEmpresa->getCodSr(),
+											':MATRICULA_RESP'=>$objEmpregado->getMatricula(),
+											':NOME_RESP'=>$objEmpregado->getNome()												
+										));
+			$registraHist = $sql->commit();
+			
+		} catch(Exception $e) {
+
+			$registraHist = $sql->rollback();
+
+			echo json_encode(array(
+				"message"=>$e->getMessage(),
+				"line"=>$e->getLine(),
+				"file"=>$e->getFile(),
+				"code"=>$e->getCode()
+			));
+		}
 	}
 }
-
 
 ?>

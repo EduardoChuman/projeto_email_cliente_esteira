@@ -70,6 +70,22 @@ class Empresa {
 		$this->emailReserva = $value;
 	}
 
+	// $codPv
+	public function getCodPv(){
+		return $this->codPv;
+	}
+	public function setCodPv($value){
+		$this->codPv = $value;
+	}
+
+	// $codSr
+	public function getCodSr(){
+		return $this->codSr;
+	}
+	public function setCodSr($value){
+		$this->codSr = $value;
+	}
+
 	// $listaEmpresa
 	public function getListaEmpresa(){
 		return $this->listaEmpresa;

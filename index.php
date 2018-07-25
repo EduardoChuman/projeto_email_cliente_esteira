@@ -56,12 +56,12 @@
 	$usuario = new Empregado();
 	
 	// CRIA UM OBJETO EMPRESA
-	 $pv = new Empresa();
+	$pv = new Empresa();
 
 	// // FUNÇÃO PARA SETTAR A RELAÇÃO DAS EMPRESAS COM BASE NO PERFIL DE ACESSO, LOTAÇÃO FÍSICA OU LOTAÇÃO ADMINISTRATIVA
-	// $pv->getEmpresas($usuario);
+	$pv->getEmpresas($usuario);
 
-	// //FUNÇÃO PARA TRAZER EM JSON A RELAÇÃO DE EMPRESAS DISPONÍVEIS
+	//FUNÇÃO PARA TRAZER EM JSON A RELAÇÃO DE EMPRESAS DISPONÍVEIS
 	// echo json_encode($pv->getListaEmpresa(), JSON_UNESCAPED_SLASHES);
 	
 
