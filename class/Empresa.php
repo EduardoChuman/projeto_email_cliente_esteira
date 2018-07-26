@@ -101,7 +101,7 @@ class Empresa {
 
 	// 	$result = $sql->select("SELECT 
 	// 								[NOME_CLIENTE]
-	// 								,[CPF/CNPJ]
+	// 								,[CNPJ]
 	// 								,[EMAIL_PRINCIPAL]
 	// 								,[EMAIL_SECUNDARIO]
 	// 								,[EMAIL_RESERVA] 
@@ -161,7 +161,7 @@ class Empresa {
 					$result =  $sql->select("SELECT 
 												[ID_EMPRESA] 
 												,[NOME_CLIENTE]
-												,[CPF/CNPJ]
+												,[CNPJ]
 												,[EMAIL_PRINCIPAL]
 												,[EMAIL_SECUNDARIO]
 												,[EMAIL_RESERVA]
@@ -183,7 +183,7 @@ class Empresa {
 					$result =  $sql->select("SELECT 
 												[ID_EMPRESA] 
 												,[NOME_CLIENTE]
-												,[CPF/CNPJ]
+												,[CNPJ]
 												,[EMAIL_PRINCIPAL]
 												,[EMAIL_SECUNDARIO]
 												,[EMAIL_RESERVA]
@@ -211,7 +211,7 @@ class Empresa {
 					$result =  $sql->select("SELECT 
 												[ID_EMPRESA] 
 												,[NOME_CLIENTE]
-												,[CPF/CNPJ]
+												,[CNPJ]
 												,[EMAIL_PRINCIPAL]
 												,[EMAIL_SECUNDARIO]
 												,[EMAIL_RESERVA]
@@ -233,7 +233,7 @@ class Empresa {
 					$result =  $sql->select("SELECT
 												[ID_EMPRESA] 
 												,[NOME_CLIENTE]
-												,[CPF/CNPJ]
+												,[CNPJ]
 												,[EMAIL_PRINCIPAL]
 												,[EMAIL_SECUNDARIO]
 												,[EMAIL_RESERVA]
@@ -258,7 +258,7 @@ class Empresa {
 				$result =  $sql->select("SELECT 
 											[ID_EMPRESA] 
 											,[NOME_CLIENTE]
-											,[CPF/CNPJ]
+											,[CNPJ]
 											,[EMAIL_PRINCIPAL]
 											,[EMAIL_SECUNDARIO]
 											,[EMAIL_RESERVA]
@@ -280,7 +280,7 @@ class Empresa {
 		return $sql->select("SELECT 
 								[ID_EMPRESA] 
 								,[NOME_CLIENTE]
-								,[CPF/CNPJ]
+								,[CNPJ]
 								,[EMAIL_PRINCIPAL]
 								,[EMAIL_SECUNDARIO]
 								,[EMAIL_RESERVA]
@@ -309,7 +309,7 @@ class Empresa {
 		$result = $sql->select("SELECT 
 									[ID_EMPRESA] 
 									,[NOME_CLIENTE]
-									,[CPF/CNPJ]
+									,[CNPJ]
 									,[EMAIL_PRINCIPAL]
 									,[EMAIL_SECUNDARIO]
 									,[EMAIL_RESERVA] 
@@ -339,7 +339,7 @@ class Empresa {
 		$result = $sql->select("SELECT 
 									[ID_EMPRESA] 
 									,[NOME_CLIENTE]
-									,[CPF/CNPJ]
+									,[CNPJ]
 									,[EMAIL_PRINCIPAL]
 									,[EMAIL_SECUNDARIO]
 									,[EMAIL_RESERVA] 
@@ -354,23 +354,23 @@ class Empresa {
 
 	}
 	// FUNÇÃO QUE TRAZ TODOS OS RESULTADOS DE UM SELECT COM WHERE NO [CPF/CNPJ]
-	public function loadByCnpj($cnpj){
+	public function loadById($id){
 
-		$this->setCnpj($cnpj);
+		$this->setIdEmpresa($id);
 
 		$sql = new Sql();
 
 		$result = $sql->select("SELECT 
 									[ID_EMPRESA] 
 									,[NOME_CLIENTE]
-									,[CPF/CNPJ]
+									,[CNPJ]
 									,[EMAIL_PRINCIPAL]
 									,[EMAIL_SECUNDARIO]
 									,[EMAIL_RESERVA] 
 								FROM 
 									tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 								WHERE
-									[CPF/CNPJ]= :CNPJ", array(":CNPJ"=>$cnpj));
+									[ID_EMPRESA]= :ID", array(":ID"=>$this->getIdEmpresa()));
 		
 		//echo json_encode($result, JSON_UNESCAPED_SLASHES);
 		// var_dump($result);
@@ -381,7 +381,7 @@ class Empresa {
 			$row = $result[0];
 			// ATRIBUIÇÃO DAS VARIÁVEIS 
 			$this->setNome($row['NOME_CLIENTE']);
-			$this->setCnpj($row['CPF/CNPJ']);
+			$this->setCnpj($row['CNPJ']);
 			$this->setEmailPrincipal($row['EMAIL_PRINCIPAL']);
 			$this->setEmailSecundario($row['EMAIL_SECUNDARIO']);
 			$this->setEmailReserva($row['EMAIL_RESERVA']);
@@ -407,7 +407,7 @@ class Empresa {
 		$result = $sql->select("SELECT 
 									[ID_EMPRESA] 
 									,[NOME_CLIENTE]
-									,[CPF/CNPJ]
+									,[CNPJ]
 									,[EMAIL_PRINCIPAL]
 									,[EMAIL_SECUNDARIO]
 									,[EMAIL_RESERVA] 
@@ -434,7 +434,7 @@ class Empresa {
 			$result = $sql->select("SELECT 
 										[ID_EMPRESA] 
 										,[NOME_CLIENTE]
-										,[CPF/CNPJ]
+										,[CNPJ]
 										,[EMAIL_PRINCIPAL]
 										,[EMAIL_SECUNDARIO]
 										,[EMAIL_RESERVA] 
@@ -476,7 +476,7 @@ class Empresa {
 
 		$sql = new Sql();
 
-		$sql->query("UPDATE tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO SET [EMAIL_PRINCIPAL] = :EPRINCIPAL, [EMAIL_SECUNDARIO] = :ESECUNDARIO, [EMAIL_RESERVA] = :ERESERVA WHERE [CPF/CNPJ] = :CNPJ", array(
+		$sql->query("UPDATE tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO SET [EMAIL_PRINCIPAL] = :EPRINCIPAL, [EMAIL_SECUNDARIO] = :ESECUNDARIO, [EMAIL_RESERVA] = :ERESERVA WHERE [CNPJ] = :CNPJ", array(
 			':EPRINCIPAL'=>$this->getEmailPrincipal(), 
 			':ESECUNDARIO'=>$this->getEmailSecundario(),
 			':ERESERVA'=>$this->getEmailReserva(),

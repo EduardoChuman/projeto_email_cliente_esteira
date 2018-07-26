@@ -117,18 +117,31 @@ class Historico {
 	}
 	public function setHistorico($emailPrincipal = "nao foi alterado", $emailSecundario = "nao foi alterado", $emailReserva = "nao foi alterado"){
 
+		// SETTAR VALOR DEFAULT PARA VARIÁVEIS NULL
+		if($emailPrincipal === NULL){
+			$emailPrincipal = "nao foi alterado";
+		}
+		if($emailSecundario === NULL){
+			$emailSecundario = "nao foi alterado";
+		}
+		if($emailReserva === NULL){
+			$emailReserva = "nao foi alterado";
+		}
+		
 		$this->historico = "ALTERACAO NO CADASTRO - e-mail principal: $emailPrincipal; e-mail secundario: $emailSecundario e e-mail reserva: $emailReserva.";
 
 	}
 
+	// MÉTODO QUE REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO E ATUALIZA O CADASTRO DA TABELA tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 	public function registraHistorico($objEmpresa, $objEmpregado){
 
 		$sql = new Sql();
-
-		$registraHist = $sql->beginTransaction();
+		//echo json_encode(get_class_methods($sql));
+		// $sql->beginTransaction();
 
 		try {
 
+			// REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO
 			$registraHist = $sql->select("INSERT INTO [dbo].[tbl_SIEXC_OPES_EMAIL_HISTORICO]
 											(
 												[CNPJ]
@@ -151,15 +164,15 @@ class Historico {
 												':COD_MATRICULA'=>$this->getMatriculaResponsavel(),
 												':CO_PV'=>$this->getArea()
 										));
-
+										
+			// ATUALIZA O CADASTRO DA TABELA tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
 			$registraHist = $sql->query("UPDATE [dbo].[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO]
 										SET										
 											[EMAIL_PRINCIPAL] = :EMAIL_PRINCIPAL
 											,[EMAIL_SECUNDARIO] = :EMAIL_SECUNDARIO
 											,[EMAIL_RESERVA] = :EMAIL_RESERVA
-											,[CO_PV] = :CO_PV
-											,[CO_SR] = :CO_SR
 											,[MATRICULA_RESP] = :MATRICULA_RESP
+											,[DATA_CADASTRO_EMAIL] = :DATA_CADASTRO_EMAIL
 											,[NOME_RESP] = :NOME_RESP
 										WHERE
 											[CNPJ] = :CNPJ", array(
@@ -167,17 +180,17 @@ class Historico {
 											':EMAIL_PRINCIPAL'=>$objEmpresa->getEmailPrincipal(),
 											':EMAIL_SECUNDARIO'=>$objEmpresa->getEmailSecundario(),
 											':EMAIL_RESERVA'=>$objEmpresa->getEmailReserva(),
-											':CO_PV'=>$objEmpresa->getCodPv(),
-											':CO_SR'=>$objEmpresa->getCodSr(),
+											':DATA_CADASTRO_EMAIL'=>date("Y-m-d H:i:s"),
 											':MATRICULA_RESP'=>$objEmpregado->getMatricula(),
 											':NOME_RESP'=>$objEmpregado->getNome()												
 										));
-			$registraHist = $sql->commit();
-			
+			// $sql->commit();
+		
 		} catch(Exception $e) {
 
-			$registraHist = $sql->rollback();
+			// $sql->rollback();
 
+			// EM CASO DE ERRO, RETORNA O TIPO VIA JSON NA TELA
 			echo json_encode(array(
 				"message"=>$e->getMessage(),
 				"line"=>$e->getLine(),

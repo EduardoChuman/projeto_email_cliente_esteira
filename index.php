@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,34 +52,33 @@
 	// ROTA PARA ACESSAR A LISTA DE EMPRESAS
 	
 	// CRIAÇÃO DO OBJETO EMPREGADO
-	$usuario = new Empregado();
+	// $usuario = new Empregado();
 	
 	// CRIA UM OBJETO EMPRESA
-	$pv = new Empresa();
+	// $pv = new Empresa();
 
 	// // FUNÇÃO PARA SETTAR A RELAÇÃO DAS EMPRESAS COM BASE NO PERFIL DE ACESSO, LOTAÇÃO FÍSICA OU LOTAÇÃO ADMINISTRATIVA
-	$pv->getEmpresas($usuario);
+	// $pv->getEmpresas($usuario);
 
 	//FUNÇÃO PARA TRAZER EM JSON A RELAÇÃO DE EMPRESAS DISPONÍVEIS
 	// echo json_encode($pv->getListaEmpresa(), JSON_UNESCAPED_SLASHES);
 	
 
 	// SIMULAÇÃO DE COMO REALIZAR O REGISTRO DE UM HISTÓRICO
-	$hist = new Historico($pv, $usuario);
+	//$hist = new Historico($pv, $usuario);
 
-	$hist->setHistorico("edu.chuman@hotmail.com");
-	echo $hist;
+	//$hist->setHistorico("edu.chuman@hotmail.com");
+	//echo $hist;
 
 	?>
-	<!-- INICIO DO CADASTRO DO E-MAIL -->
-	<!-- <form method="post" action="teste_cadastro.php">
-		<fieldset><legend>Digite um CNPJ para acesar o cadastro de e-mails</legend>
-		CNPJ: <input type="text" name="cnpj" required>
+	<!-- INICIO DO FORMULÁRIO DE CAPTURA DE ID -->
+	<form method="post" action="teste_cadastro.php">
+		<fieldset><legend>Digite o ID para acesar o cadastro de e-mails</legend>
+		ID: <input type="text" name="id" required>
 		<input type="submit" value="PESQUISAR">
 		</fieldset>
-	</form> -->
-	<!-- FIM DO CADASTRO DO E-MAIL -->
-
+	</form>
+	<!-- FIM DO FORMULÁRIO DE CAPTURA DE ID -->
 
 </body>
 </html>

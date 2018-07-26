@@ -5,9 +5,11 @@ ini_set('display_errors',1);
 // FUNÇÃO QUE VERIFICA SE DETERMINADA CLASSE EXISTE E, EM CASO AFIRMATIVO, FAZ O REQUIRE DO ARQUIVO
 spl_autoload_register(function($className){
 
-	$fileName = "class". DIRECTORY_SEPARATOR . $className . ".php";
-	// TESTES VLAD
-	// if(file_exists("DAO". DIRECTORY_SEPARATOR .$fileName)) {
+	// $fileName = "class". DIRECTORY_SEPARATOR . $className . ".php";
+	// CAMINHO FIXO
+	$caminho = $_SERVER["DOCUMENT_ROOT"];
+	$fileName = $caminho . DIRECTORY_SEPARATOR . "esteiracomex" . DIRECTORY_SEPARATOR . "email_cliente_esteira" . DIRECTORY_SEPARATOR . "class". DIRECTORY_SEPARATOR . $className . ".php";
+
 
 	// 	require_once("DAO". DIRECTORY_SEPARATOR .$fileName);
 

@@ -14,34 +14,37 @@
         // mb_internal_encoding('UTF8'); 
         // mb_regex_encoding('UTF8'); 
 
+        // CAPTURAR A RAIZ DO SERVIDOR
+        $caminho = $_SERVER["DOCUMENT_ROOT"];
+
         // CHAMA O ARQUIVO DE VERIFICAÇÃO DE EXISTÊNCIA DAS CLASSES
-        require_once("config.php");
+        require_once($caminho . DIRECTORY_SEPARATOR . "esteiracomex" . DIRECTORY_SEPARATOR . "email_cliente_esteira" . DIRECTORY_SEPARATOR . "config.php");
 
+        // CRIA OS OBJETOS DE EMPREGADO E EMPRESA
         $usuario = new Empregado();
-
         $empresa = new Empresa();
 
-        $cnpj = isset($_POST['cnpj']) ? $_POST['cnpj'] : "";
+        // ATRIBUI VALOR A VARIÁVEL
+        $id = isset($_POST['id']) ? $_POST['id'] : "";
 
-        // $cnpj = '69.193.175/0001-69';
+        // RETORNA A EMPRESA QUE CONTÉM AQUELE ID
+        $empresa->loadById($id);
 
-        $empresa->loadByCnpj($cnpj);
-
-        // echo $empresa;
     ?>
 
+    <!-- FORMULÁRIO PARA CADASTRAR NOVA RELAÇÃO DE E-MAIL -->
     <fieldset><legend>DADOS CADASTRAIS</legend>
-    <form method="post">
-    NOME: <input type="text" value="<?php echo $empresa->getNome(); ?>" readonly size="90">&nbsp;&nbsp;&nbsp;&nbsp;
-    CNPJ: <input type="text" value="<?php echo $empresa->getCnpj(); ?>" readonly><br/><br/>
-    E-MAIL PRINCIPAL: <input type="email" value="<?php echo $empresa->getEmailPrincipal(); ?>" name="emailPrincipal"size="111"><br/>
-    E-MAIL SECUNDÁRIO: <input type="email" value="<?php echo $empresa->getEmailSecundario(); ?>" name="emailSecundario" size="108"><br/>
-    E-MAIL RESERVA: <input type="email" value="<?php echo $empresa->getEmailReserva(); ?>" name="emailReserva" size="113"><br/>
+    <form method="post" action="altera_cadastro.php">
+    NOME: <input type="text" name="nomeEmpresa" value="<?php echo $empresa->getNome(); ?>" readonly size="90">&nbsp;&nbsp;&nbsp;&nbsp;
+    CNPJ: <input type="text" name="cnpjEmpresa" value="<?php echo $empresa->getCnpj(); ?>" readonly><br/><br/>
+    E-MAIL PRINCIPAL: <input type="email" name="emailPrincipal" value="<?php echo $empresa->getEmailPrincipal(); ?>" size="111"><br/>
+    E-MAIL SECUNDÁRIO: <input type="email" name="emailSecundario" value="<?php echo $empresa->getEmailSecundario(); ?>" size="108"><br/>
+    E-MAIL RESERVA: <input type="email" name="emailReserva"value="<?php echo $empresa->getEmailReserva(); ?>" size="113"><br/>
     <input type="submit" value="ALTERAR CADASTRO">
     </form>
     </fieldset>
 
-
+    <!-- RETORNA PARA A TELA INICIAL -->
     <a href="index.php">Voltar</a>    
 </body>
 </html>

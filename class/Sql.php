@@ -15,8 +15,11 @@ class Sql extends PDO {
 		// CAMINHO REAL DO PROJETO
 		// include("../../include_comex/comex/sqlsrv.php");
 
-		// CAMINHO FAKE PRA ROTA
-		include("../../../include_comex/comex/sqlsrv.php");
+		
+		// CAMINHO ROTA FIXA
+		$caminho = $_SERVER["DOCUMENT_ROOT"];
+		include($caminho . DIRECTORY_SEPARATOR . "include_comex" . DIRECTORY_SEPARATOR . "comex" . DIRECTORY_SEPARATOR . "sqlsrv.php");
+		
 
 		$this->conn = new PDO("sqlsrv:Database=$db_name;server=$db_host",$db_user,$db_pass);
 		
