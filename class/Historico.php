@@ -34,7 +34,6 @@ class Historico {
 		$this->setNomeResponsavel($objEmpregado->getNome());
 		$this->setMatriculaResponsavel($objEmpregado->getMatricula());
 		$this->setData();
-		$this->setTipoAcao();
 	}
 
 	// MÉTODO PARA TRAZER OS DADOS DO OBJETO COMO JSON
@@ -83,8 +82,8 @@ class Historico {
 	public function getTipoAcao(){
 		return $this->tipoAcao;
 	}
-	public function setTipoAcao(){
-		$this->tipoAcao = "ALTERACAO";
+	public function setTipoAcao($value){
+		$this->tipoAcao = $value;
 	}
 
 	// $area
@@ -115,25 +114,45 @@ class Historico {
 	public function getHistorico(){
 		return $this->historico;
 	}
-	public function setHistorico($emailPrincipal = "nao foi alterado", $emailSecundario = "nao foi alterado", $emailReserva = "nao foi alterado"){
+	public function setHistorico($emailPrincipal = "sem e-mail cadastrado", $emailSecundario = "sem e-mail cadastrado", $emailReserva = "sem e-mail cadastrado"){
 
-		// SETTAR VALOR DEFAULT PARA VARIÁVEIS NULL
-		if($emailPrincipal === NULL){
-			$emailPrincipal = "nao foi alterado";
+		switch ($this->getTipoAcao()) {
+			case 'ALTERACAO':
+				
+				if($emailPrincipal === NULL){
+					$emailPrincipal = "sem e-mail cadastrado";
+				}
+				if($emailSecundario === NULL){
+					$emailSecundario = "sem e-mail cadastrado";
+				}
+				if($emailReserva === NULL){
+					$emailReserva = "sem e-mail cadastrado";
+				}
+				
+				$this->historico = "Alteracao no Cadastro (e-mail principal: $emailPrincipal; e-mail secundario: $emailSecundario e e-mail reserva: $emailReserva).";
+				break;
+			
+			case 'ENVIO':
+				
+				if($emailPrincipal === NULL){
+					$emailPrincipal = "sem e-mail cadastrado";
+				}
+				if($emailSecundario === NULL){
+					$emailSecundario = "sem e-mail cadastrado";
+				}
+				if($emailReserva === NULL){
+					$emailReserva = "sem e-mail cadastrado";
+				}
+				
+				$this->historico = "Ordem de Pagamento enviada (e-mail principal: $emailPrincipal; e-mail secundario: $emailSecundario e e-mail reserva: $emailReserva).";
+				break;
+
 		}
-		if($emailSecundario === NULL){
-			$emailSecundario = "nao foi alterado";
-		}
-		if($emailReserva === NULL){
-			$emailReserva = "nao foi alterado";
-		}
-		
-		$this->historico = "ALTERACAO NO CADASTRO - e-mail principal: $emailPrincipal; e-mail secundario: $emailSecundario e e-mail reserva: $emailReserva.";
 
 	}
 
 	// MÉTODO QUE REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO E ATUALIZA O CADASTRO DA TABELA tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
-	public function registraHistorico($objEmpresa, $objEmpregado){
+	public function registraHistoricoCadastro($objEmpresa, $objEmpregado){
 
 		$sql = new Sql();
 		//echo json_encode(get_class_methods($sql));
@@ -184,6 +203,59 @@ class Historico {
 											':MATRICULA_RESP'=>$objEmpregado->getMatricula(),
 											':NOME_RESP'=>$objEmpregado->getNome()												
 										));
+			// $sql->commit();
+		
+		} catch(Exception $e) {
+
+			// $sql->rollback();
+
+			// EM CASO DE ERRO, RETORNA O TIPO VIA JSON NA TELA
+			echo json_encode(array(
+				"message"=>$e->getMessage(),
+				"line"=>$e->getLine(),
+				"file"=>$e->getFile(),
+				"code"=>$e->getCode()
+			));
+		}
+	}
+
+	// MÉTODO QUE REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO 
+	public function registraHistoricoEnvioEmail($objEmpresa, $objEmpregado){
+
+        // // ATRIBUI O TIPO DE AÇÃO A SER REGISTRADA NO HISTÓRICO
+		// $this->setTipoAcao("ENVIO");
+
+		// CRIA O OBJETO DE CONEXÃO AO BANCO DE DADOS
+		$sql = new Sql();
+		//echo json_encode(get_class_methods($sql));
+		// $sql->beginTransaction();
+
+		try {
+
+			// REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO
+			$registraHist = $sql->select("INSERT INTO [dbo].[tbl_SIEXC_OPES_EMAIL_HISTORICO]
+											(
+												[CNPJ]
+												,[ACAO]
+												,[HISTORICO]
+												,[COD_MATRICULA]
+												,[CO_PV]
+											)
+										VALUES
+											(
+												:CNPJ,
+												:ACAO,
+												:HISTORICO,
+												:COD_MATRICULA,
+												:CO_PV
+											)", array(
+												':CNPJ'=>$this->getCnpj(),
+												':ACAO'=>$this->getTipoAcao(),
+												':HISTORICO'=>$this->getHistorico(),
+												':COD_MATRICULA'=>$this->getMatriculaResponsavel(),
+												':CO_PV'=>$this->getArea()
+										));
+										
 			// $sql->commit();
 		
 		} catch(Exception $e) {

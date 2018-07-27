@@ -40,12 +40,17 @@
         
         // CRIA O OBJETO HISTÓRICO
         $historico = new Historico($empresa, $usuario);
+
+
+        // ATRIBUI O TIPO DE AÇÃO A SER REGISTRADA NO HISTÓRICO
+        $historico->setTipoAcao("ALTERACAO");
         
         // CRIA A LINHA QUE VAI NO HISTÓRICO DA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO
         $historico->setHistorico($emailPrincipal, $emailSecundario, $emailReserva);
 
+
         // REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO E ATUALIZA O CADASTRO DA TABELA tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
-        $historico->registraHistorico($empresa, $usuario);
+        $historico->registraHistoricoCadastro($empresa, $usuario);
 
         // MENSAGEM DE CONFIRMAÇÃO DA OPERAÇÃO
         echo "cadastro alterado com sucesso!";

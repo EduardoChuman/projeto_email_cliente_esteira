@@ -466,32 +466,41 @@ class Empresa {
 
 	}
 
-	// FUNÇÃO PARA INSERIR E-MAIL NA TABELA [tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO]
-	public function updateEmail($cnpj, $emailPrincipal = null, $emailSecundario = null, $emailReserva = null){
+	// METÓDO QUE RETORNA A QUANTIDADE DE EMPRESAS COM E-MAIL CADASTRADO QUE TEM OP(s) PARA ENVIAR
+	public function listaEmpresasEnvioEmail(){
 
-		$this->setCnpj($cnpj);
-		$this->setEmailPrincipal($emailPrincipal);
-		$this->setEmailSecundario($emailSecundario);
-		$this->setEmailReserva($emailReserva);
-
+		// CRIA O OBJETO DE CONEXÃO COM O BANCO DE DADOS
 		$sql = new Sql();
 
-		$sql->query("UPDATE tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO SET [EMAIL_PRINCIPAL] = :EPRINCIPAL, [EMAIL_SECUNDARIO] = :ESECUNDARIO, [EMAIL_RESERVA] = :ERESERVA WHERE [CNPJ] = :CNPJ", array(
-			':EPRINCIPAL'=>$this->getEmailPrincipal(), 
-			':ESECUNDARIO'=>$this->getEmailSecundario(),
-			':ERESERVA'=>$this->getEmailReserva(),
-			':CNPJ'=>$this->getCnpj()
-		));
+		// REALIZA UM SELECT QUE LISTA AS EMPRESAS COM E-MAIL QUE TEM OPO(s) PARA ENVIAR
+		$result = $sql->select("SELECT DISTINCT
+									CADASTRO.[NOME_CLIENTE]
+									,CADASTRO.[EMAIL_PRINCIPAL]
+									,CADASTRO.[EMAIL_SECUNDARIO]
+									,CADASTRO.[EMAIL_RESERVA]
+								FROM 
+									[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO] AS CADASTRO 
+									INNER JOIN [tbl_SIEXC_OPES_ENVIADAS]  AS OPES 
+									ON CADASTRO.[CNPJ] = OPES.[CPF/CNPJ do Cliente]
+								WHERE  
+									OPES.[DATA_ENVIO_OPE] is NULL AND CADASTRO.[EMAIL_PRINCIPAL] IS NOT NULL
+									OR OPES.[DATA_ENVIO_OPE] is NULL AND CADASTRO.[EMAIL_SECUNDARIO] IS NOT NULL
+									OR OPES.[DATA_ENVIO_OPE] is NULL AND CADASTRO.[EMAIL_RESERVA] IS NOT NULL");
 		
-		//if (!empty($result)) {
+		// VERIFICA SE RETORNOU ALGUM OBJETO NO SELECT
+		if (!empty($result)) {
 
-			// echo json_encode($result, JSON_UNESCAPED_SLASHES);
+			// CASO POSITIVO -> ELE DEVOLVE NA TELA COMO JSON EM FORMATO DE OBJETO
+			// return json_encode($result, JSON_FORCE_OBJECT);
+			// $this->setListaEmpresa($result);
+			return $result;
 
-		//} else {
+		} else {
 
-			//echo "Não foi possível cadastrar o e-mail. Tente novamente.";
+			// CASO NEGATIVO -> AVISA QUE NÃO EXISTEM EMPRESAS PARA ENVIAR E-MAIL
+			return "Não existem empresas cadastradas nesse ponto de atendimento.";
 
-		//}
+		}
 
 	}
 
