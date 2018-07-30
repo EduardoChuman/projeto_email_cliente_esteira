@@ -156,9 +156,10 @@ class Historico {
 
 		$sql = new Sql();
 		//echo json_encode(get_class_methods($sql));
-		// $sql->beginTransaction();
+		$sql->beginTransaction();
 
 		try {
+
 
 			// REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO
 			$registraHist = $sql->select("INSERT INTO [dbo].[tbl_SIEXC_OPES_EMAIL_HISTORICO]
@@ -203,11 +204,11 @@ class Historico {
 											':MATRICULA_RESP'=>$objEmpregado->getMatricula(),
 											':NOME_RESP'=>$objEmpregado->getNome()												
 										));
-			// $sql->commit();
+			$sql->commit();
 		
 		} catch(Exception $e) {
 
-			// $sql->rollback();
+			$sql->rollback();
 
 			// EM CASO DE ERRO, RETORNA O TIPO VIA JSON NA TELA
 			echo json_encode(array(

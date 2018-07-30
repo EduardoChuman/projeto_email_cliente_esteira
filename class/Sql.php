@@ -6,6 +6,7 @@ ini_set('display_errors',1);
 class Sql extends PDO {
 
 	private $conn;
+	protected $hasActiveTransaction = false;
 
 	
 	// CRIA A CONEXÃO NO BANCO AUTOMATICAMENTE, ASSIM QUE CRIAR UM OBJETO SQL
@@ -13,14 +14,15 @@ class Sql extends PDO {
 
 		/* MÉTODO COM REQUIRE */
 		// CAMINHO REAL DO PROJETO
-		// include("../../include_comex/comex/sqlsrv.php");
+		// include("../../../include_comex/comex/sqlsrv.php");
 
+		// CAMINHO DO TESTE
+		include("../../../includes/database/sqlsrv.php");
 		
 		// CAMINHO ROTA FIXA
-		$caminho = $_SERVER["DOCUMENT_ROOT"];
-		include($caminho . DIRECTORY_SEPARATOR . "include_comex" . DIRECTORY_SEPARATOR . "comex" . DIRECTORY_SEPARATOR . "sqlsrv.php");
-		
-
+		// $caminho = $_SERVER["DOCUMENT_ROOT"];
+		// include($caminho . DIRECTORY_SEPARATOR . "include_comex" . DIRECTORY_SEPARATOR . "comex" . DIRECTORY_SEPARATOR . "sqlsrv.php");		
+		// parent::__construct("sqlsrv:Database=$db_name;server=$db_host",$db_user,$db_pass);
 		$this->conn = new PDO("sqlsrv:Database=$db_name;server=$db_host",$db_user,$db_pass);
 		
 	}
@@ -45,15 +47,29 @@ class Sql extends PDO {
 	// EXECUTA OS VALORES PARAMETRIZADOS
 	public function query($rawQuery, $params = array()){
 
-		$stmt = $this->conn->prepare($rawQuery);
+		try {
 
-		$this->setParams($stmt, $params);
+			$stmt = $this->conn->prepare($rawQuery);
 
-		$stmt->execute();
+			$this->setParams($stmt, $params);
+	
+			$stmt->execute();
+	
+			return $stmt;
+	
+			$this->conn = null;
 
-		return $stmt;
+		} catch (Exception $e){
 
-		$this->conn = null;
+			// EM CASO DE ERRO, RETORNA O TIPO VIA JSON NA TELA
+			echo json_encode(array(
+				"message"=>$e->getMessage(),
+				"line"=>$e->getLine(),
+				"file"=>$e->getFile(),
+				"code"=>$e->getCode()
+			));
+
+		}
 
 	}
 
@@ -64,6 +80,19 @@ class Sql extends PDO {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+	}
+
+	public function beginTransaction()
+	{
+		 return $this->conn->beginTransaction();
+	}
+	public function rollBack()
+	{
+		 return $this->conn->rollBack();
+	}
+	public function commit()
+	{
+		 return $this->conn->commit();
 	}
     
 }

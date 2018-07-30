@@ -15,10 +15,11 @@
         // mb_regex_encoding('UTF8'); 
 
         // CAPTURAR A RAIZ DO SERVIDOR
-        $caminho = $_SERVER["DOCUMENT_ROOT"];
-
+        // $caminho = $_SERVER["DOCUMENT_ROOT"];
         // CHAMA O ARQUIVO DE VERIFICAÇÃO DE EXISTÊNCIA DAS CLASSES
-        require_once($caminho . DIRECTORY_SEPARATOR . "esteiracomex" . DIRECTORY_SEPARATOR . "email_cliente_esteira" . DIRECTORY_SEPARATOR . "config.php");
+        // require_once($caminho . DIRECTORY_SEPARATOR . "esteiracomex" . DIRECTORY_SEPARATOR . "email_cliente_esteira" . DIRECTORY_SEPARATOR . "config.php");
+        require_once("config.php");
+
 
         // CRIA OS OBJETOS DE EMPREGADO E EMPRESA
         $usuario = new Empregado();
