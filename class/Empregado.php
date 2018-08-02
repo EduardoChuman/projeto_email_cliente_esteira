@@ -9,7 +9,9 @@ class Empregado {
 	private $matricula; 
 	private $nome;
 	private $lotacaoAdm;
+	private $nomeLotacaoAdm;
 	private $lotacaoFisica;
+	private $nomeLotacaoFisica;
 	private $nivelAcesso;
 	private $funcao;
 	private $dataAdmissao;
@@ -54,6 +56,18 @@ class Empregado {
 		
 	}
 
+	// $nomeLotacaoAdm
+	public function getNomeLotacaoAdm(){
+
+		return $this->nomeLotacaoAdm;
+
+	}
+	public function setNomeLotacaoAdm($value){
+
+		$this->nomeLotacaoAdm = $value;
+		
+	}
+
 	// $lotacaoFisica
 	public function getLotacaoFisica(){
 
@@ -63,6 +77,18 @@ class Empregado {
 	public function setLotacaoFisica($value){
 
 		$this->lotacaoFisica = $value;
+		
+	}
+
+	// $nomeLotacaoFisica
+	public function getNomeLotacaoFisica(){
+
+		return $this->nomeLotacaoFisica;
+
+	}
+	public function setNomeLotacaoFisica($value){
+
+		$this->nomeLotacaoFisica = $value;
 		
 	}
 
@@ -154,7 +180,9 @@ class Empregado {
 
 			// ATRIBUIÇÃO DAS VARIÁVEIS NOME, LOTAÇÃO_FISICA, FUNÇÃO E DATA_CONTRATAÇÃO
 			$this->setNome($row2['NOME']);
+			$this->setNomeLotacaoAdm($row2['UNIDADE_LOTACAO_ADMINISTRATIVA']);
 			$this->setLotacaoFisica($row2['CODIGO_UNIDADE_LOTACAO_FISICA']);
+			$this->setNomeLotacaoFisica($row2['UNIDADE_LOTACAO_FISICA']);
 			$this->setFuncao($row2['FUNCAO']);
 			$this->setDataAdmissao($row2['DATA_CONTRATACAO']);
 
@@ -169,7 +197,9 @@ class Empregado {
 			"MATRICULA"=>$this->getMatricula(),
 			"NOME"=>$this->getNome(),
 			"LOTACAO_ADMINISTRATIVA"=>$this->getLotacaoAdm(),
+			"NOME_LOTACAO_ADMINISTRATIVA"=>$this->getNomeLotacaoAdm(),
 			"LOTACAO_FISICA"=>$this->getLotacaoFisica(),
+			"NOME_LOTACAO_FISICA"=>$this->getNomeLotacaoFisica(),
 			"NIVEL_ACESSO"=>$this->getNivelAcesso(),
 			"FUNCAO"=>$this->getFuncao(),
 			"DATA_ADMISSAO"=>$this->getDataAdmissao(),

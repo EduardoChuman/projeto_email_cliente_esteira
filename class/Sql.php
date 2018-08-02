@@ -21,8 +21,10 @@ class Sql extends PDO {
 		
 		// CAMINHO ROTA FIXA
 		$caminho = $_SERVER["DOCUMENT_ROOT"];
+		// CEOPC (HOMOLOGAÇÃO)
 		include($caminho . DIRECTORY_SEPARATOR . "include_comex" . DIRECTORY_SEPARATOR . "comex" . DIRECTORY_SEPARATOR . "sqlsrv.php");		
-		// parent::__construct("sqlsrv:Database=$db_name;server=$db_host",$db_user,$db_pass);
+		// GEOPC (PRODUÇÃO)
+		// include($caminho . DIRECTORY_SEPARATOR . "include_comex" . DIRECTORY_SEPARATOR . "comex" . DIRECTORY_SEPARATOR . "conexaobd.php");
 		$this->conn = new PDO("sqlsrv:Database=$db_name;server=$db_host",$db_user,$db_pass);
 		
 	}

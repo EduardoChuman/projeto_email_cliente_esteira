@@ -221,7 +221,7 @@ class Historico {
 	}
 
 	// MÉTODO QUE REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO 
-	public function registraHistoricoEnvioEmail($objEmpresa, $objEmpregado){
+	public function registraHistoricoEnvioEmail(){
 
         // // ATRIBUI O TIPO DE AÇÃO A SER REGISTRADA NO HISTÓRICO
 		// $this->setTipoAcao("ENVIO");
@@ -270,6 +270,42 @@ class Historico {
 				"file"=>$e->getFile(),
 				"code"=>$e->getCode()
 			));
+		}
+	}
+
+	// MÉTODO DE CONSULTA DAS 5 ÚLTIMAS MOVIMENTAÇÕES NO HISTÓRICO NAQUELE CNPJ
+	public function consultaHistorico() {
+		
+		// CRIA O OBJETO DE CONEXÃO AO BANCO DE DADOS
+		$sql = new Sql();
+
+		try{
+
+			$consulta = $sql->select("SELECT TOP 5
+										[DATA_HISTORICO] AS [DATA]
+										,[CNPJ]
+										,[ACAO]
+										,[HISTORICO]
+										,[COD_MATRICULA]
+										,[CO_PV]
+									FROM
+										[dbo].[tbl_SIEXC_OPES_EMAIL_HISTORICO]
+									WHERE
+										[CNPJ] = :CNPJ
+									ORDER BY [COD_HISTORICO] DESC", array(
+										':CNPJ'=>$this->getCnpj()
+									));
+			return json_encode($consulta, JSON_UNESCAPED_SLASHES);
+
+		} catch (Exception $e) {
+
+			echo json_encode(array(
+				"message"=>$e->getMessage(),
+				"line"=>$e->getLine(),
+				"file"=>$e->getFile(),
+				"code"=>$e->getCode()
+			));
+
 		}
 	}
 }

@@ -45,8 +45,8 @@
 	// echo $inserir;
 
 	// CRIAÇÃO DO OBJETO EMPREGADO
-	// $usuario = new Empregado();
-	// echo $usuario;
+	$usuario = new Empregado();
+	echo $usuario;
 
 
 	// ROTA PARA ACESSAR A LISTA DE EMPRESAS
@@ -72,12 +72,12 @@
 
 	?>
 	<!-- INICIO DO FORMULÁRIO DE CAPTURA DE ID -->
-	<form method="post" action="teste_cadastro.php">
+	<!-- <form method="post" action="teste_cadastro.php">
 		<fieldset><legend>Digite o ID para acesar o cadastro de e-mails</legend>
 		ID: <input type="text" name="id" required>
 		<input type="submit" value="PESQUISAR">
 		</fieldset>
-	</form>
+	</form> -->
 	<!-- FIM DO FORMULÁRIO DE CAPTURA DE ID -->
 
 </body>

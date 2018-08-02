@@ -35,14 +35,14 @@
 
     <!-- FORMULÁRIO PARA CADASTRAR NOVA RELAÇÃO DE E-MAIL -->
     <fieldset><legend>DADOS CADASTRAIS</legend>
-    <form method="post" action="altera_cadastro.php">
-    NOME: <input type="text" name="nomeEmpresa" value="<?php echo $empresa->getNome(); ?>" readonly size="90">&nbsp;&nbsp;&nbsp;&nbsp;
-    CNPJ: <input type="text" name="cnpjEmpresa" value="<?php echo $empresa->getCnpj(); ?>" readonly><br/><br/>
-    E-MAIL PRINCIPAL: <input type="email" name="emailPrincipal" value="<?php echo $empresa->getEmailPrincipal(); ?>" size="111"><br/>
-    E-MAIL SECUNDÁRIO: <input type="email" name="emailSecundario" value="<?php echo $empresa->getEmailSecundario(); ?>" size="108"><br/>
-    E-MAIL RESERVA: <input type="email" name="emailReserva"value="<?php echo $empresa->getEmailReserva(); ?>" size="113"><br/>
-    <input type="submit" value="ALTERAR CADASTRO">
-    </form>
+        <form method="post" action="altera_cadastro.php">
+            NOME: <input type="text" name="nomeEmpresa" value="<?php echo $empresa->getNome(); ?>" readonly size="90">&nbsp;&nbsp;&nbsp;&nbsp;
+            CNPJ: <input type="text" name="cnpjEmpresa" value="<?php echo $empresa->getCnpj(); ?>" readonly><br/><br/>
+            E-MAIL PRINCIPAL: <input type="email" name="emailPrincipal" value="<?php echo $empresa->getEmailPrincipal(); ?>" size="111"><br/>
+            E-MAIL SECUNDÁRIO: <input type="email" name="emailSecundario" value="<?php echo $empresa->getEmailSecundario(); ?>" size="108"><br/>
+            E-MAIL RESERVA: <input type="email" name="emailReserva"value="<?php echo $empresa->getEmailReserva(); ?>" size="113"><br/>
+            <input type="submit" value="ALTERAR CADASTRO">
+        </form>
     </fieldset>
 
     <!-- RETORNA PARA A TELA INICIAL -->

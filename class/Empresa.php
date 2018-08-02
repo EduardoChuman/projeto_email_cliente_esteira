@@ -158,16 +158,19 @@ class Empresa {
 
 					$sql = new Sql();
 
-					$result =  $sql->select("SELECT 
-												[ID_EMPRESA] 
-												,[NOME_CLIENTE]
-												,[CNPJ]
-												,[EMAIL_PRINCIPAL]
-												,[EMAIL_SECUNDARIO]
-												,[EMAIL_RESERVA]
-												,[CO_PV]
+					$result =  $sql->select("SELECT DISTINCT
+												CADASTRO.[ID_EMPRESA]
+												,CADASTRO.[NOME_CLIENTE]
+												,CADASTRO.[CNPJ]
+												,CADASTRO.[EMAIL_PRINCIPAL]
+												,CADASTRO.[EMAIL_SECUNDARIO]
+												,CADASTRO.[EMAIL_RESERVA]
+												,CADASTRO.[CO_PV]
+												,UNIDADES.[NO_AG] AS [NO_PV]
 											FROM 
-												tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
+												[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO] AS CADASTRO
+												LEFT JOIN [tbl_UNIDADES_DIRE] AS UNIDADES 
+												ON CADASTRO.[CO_PV] = UNIDADES.[CD_AG]
 											WHERE
 												[CO_PV] = :COD", array(
 													':COD'=>$usuario->getLotacaoFisica()
@@ -180,16 +183,19 @@ class Empresa {
 
 					$sql = new Sql();
 
-					$result =  $sql->select("SELECT 
-												[ID_EMPRESA] 
-												,[NOME_CLIENTE]
-												,[CNPJ]
-												,[EMAIL_PRINCIPAL]
-												,[EMAIL_SECUNDARIO]
-												,[EMAIL_RESERVA]
-												,[CO_PV] 
+					$result =  $sql->select("SELECT DISTINCT
+												CADASTRO.[ID_EMPRESA]
+												,CADASTRO.[NOME_CLIENTE]
+												,CADASTRO.[CNPJ]
+												,CADASTRO.[EMAIL_PRINCIPAL]
+												,CADASTRO.[EMAIL_SECUNDARIO]
+												,CADASTRO.[EMAIL_RESERVA]
+												,CADASTRO.[CO_PV]
+												,UNIDADES.[NO_AG] AS [NO_PV]
 											FROM 
-												tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
+												[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO] AS CADASTRO
+												LEFT JOIN [tbl_UNIDADES_DIRE] AS UNIDADES 
+												ON CADASTRO.[CO_PV] = UNIDADES.[CD_AG]
 											WHERE
 												[CO_PV] = :COD", array(
 													':COD'=>$usuario->getLotacaoAdm()
@@ -208,16 +214,19 @@ class Empresa {
 
 					$sql = new Sql();
 
-					$result =  $sql->select("SELECT 
-												[ID_EMPRESA] 
-												,[NOME_CLIENTE]
-												,[CNPJ]
-												,[EMAIL_PRINCIPAL]
-												,[EMAIL_SECUNDARIO]
-												,[EMAIL_RESERVA]
-												,[CO_PV] 
+					$result =  $sql->select("SELECT DISTINCT
+												CADASTRO.[ID_EMPRESA]
+												,CADASTRO.[NOME_CLIENTE]
+												,CADASTRO.[CNPJ]
+												,CADASTRO.[EMAIL_PRINCIPAL]
+												,CADASTRO.[EMAIL_SECUNDARIO]
+												,CADASTRO.[EMAIL_RESERVA]
+												,CADASTRO.[CO_PV]
+												,UNIDADES.[NO_AG] AS [NO_PV]
 											FROM 
-												tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
+												[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO] AS CADASTRO
+												LEFT JOIN [tbl_UNIDADES_DIRE] AS UNIDADES 
+												ON CADASTRO.[CO_PV] = UNIDADES.[CD_AG]
 											WHERE
 												[CO_SR] = :COD", array(
 													':COD'=>$usuario->getLotacaoFisica()
@@ -230,16 +239,19 @@ class Empresa {
 
 					$sql = new Sql();
 
-					$result =  $sql->select("SELECT
-												[ID_EMPRESA] 
-												,[NOME_CLIENTE]
-												,[CNPJ]
-												,[EMAIL_PRINCIPAL]
-												,[EMAIL_SECUNDARIO]
-												,[EMAIL_RESERVA]
-												,[CO_PV] 
+					$result =  $sql->select("SELECT DISTINCT
+												CADASTRO.[ID_EMPRESA]
+												,CADASTRO.[NOME_CLIENTE]
+												,CADASTRO.[CNPJ]
+												,CADASTRO.[EMAIL_PRINCIPAL]
+												,CADASTRO.[EMAIL_SECUNDARIO]
+												,CADASTRO.[EMAIL_RESERVA]
+												,CADASTRO.[CO_PV]
+												,UNIDADES.[NO_AG] AS [NO_PV]
 											FROM 
-												tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
+												[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO] AS CADASTRO
+												LEFT JOIN [tbl_UNIDADES_DIRE] AS UNIDADES 
+												ON CADASTRO.[CO_PV] = UNIDADES.[CD_AG]
 											WHERE
 												[CO_SR] = :COD", array(
 													':COD'=>$usuario->getLotacaoAdm()
@@ -255,16 +267,20 @@ class Empresa {
 
 				$sql = new Sql();
 
-				$result =  $sql->select("SELECT 
-											[ID_EMPRESA] 
-											,[NOME_CLIENTE]
-											,[CNPJ]
-											,[EMAIL_PRINCIPAL]
-											,[EMAIL_SECUNDARIO]
-											,[EMAIL_RESERVA]
-											,[CO_PV] 
+				$result =  $sql->select("SELECT DISTINCT
+											CADASTRO.[ID_EMPRESA]
+											,CADASTRO.[NOME_CLIENTE]
+											,CADASTRO.[CNPJ]
+											,CADASTRO.[EMAIL_PRINCIPAL]
+											,CADASTRO.[EMAIL_SECUNDARIO]
+											,CADASTRO.[EMAIL_RESERVA]
+											,CADASTRO.[CO_PV]
+											,UNIDADES.[NO_AG] AS [NO_PV]
 										FROM 
-											tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO");
+											[tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO] AS CADASTRO
+											LEFT JOIN [tbl_UNIDADES_DIRE] AS UNIDADES 
+											ON CADASTRO.[CO_PV] = UNIDADES.[CD_AG]"
+										);
 
 				// echo json_encode($result, JSON_UNESCAPED_SLASHES);
 				$this->setListaEmpresa($result);
@@ -475,6 +491,7 @@ class Empresa {
 		// REALIZA UM SELECT QUE LISTA AS EMPRESAS COM E-MAIL QUE TEM OPO(s) PARA ENVIAR
 		$result = $sql->select("SELECT DISTINCT
 									CADASTRO.[NOME_CLIENTE]
+									,CADASTRO.[CNPJ]
 									,CADASTRO.[EMAIL_PRINCIPAL]
 									,CADASTRO.[EMAIL_SECUNDARIO]
 									,CADASTRO.[EMAIL_RESERVA]
@@ -495,12 +512,12 @@ class Empresa {
 			// $this->setListaEmpresa($result);
 			return $result;
 
-		} else {
+		} // else {
 
-			// CASO NEGATIVO -> AVISA QUE NÃO EXISTEM EMPRESAS PARA ENVIAR E-MAIL
-			return "Não existem empresas cadastradas nesse ponto de atendimento.";
+		// 	// CASO NEGATIVO -> AVISA QUE NÃO EXISTEM EMPRESAS PARA ENVIAR E-MAIL
+		// 	return "Não existem empresas cadastradas nesse ponto de atendimento.";
 
-		}
+		// }
 
 	}
 

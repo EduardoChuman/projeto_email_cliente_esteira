@@ -53,8 +53,8 @@
         // REGISTRA O HISTÓRICO NA TABELA tbl_SIEXC_OPES_EMAIL_HISTORICO E ATUALIZA O CADASTRO DA TABELA tbl_SIEXC_OPES_EMAIL_CLIENTES_CADASTRO
         $historico->registraHistoricoCadastro($empresa, $usuario);
 
-        // MENSAGEM DE CONFIRMAÇÃO DA OPERAÇÃO
-        echo "cadastro alterado com sucesso!";
+        // DEVOLVER PARA A PÁGINA DE CADASTRO DE EMAIL
+        header("location:http://www.ceopc.hom.sp.caixa/esteiracomex/cadastro_email_cliente_comex.php");
 
     } catch (Exception $e) {
 
@@ -70,5 +70,5 @@
 
 ?>
 <br/>
-<!-- RETORNA PARA A TELA INICIAL -->
-<a href="index.php">Voltar</a>  
+<!-- RETORNA PARA A TELA INICIAL
+<a href="index.php">Voltar</a>   -->
