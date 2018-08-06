@@ -46,7 +46,7 @@
 
 	// CRIAÇÃO DO OBJETO EMPREGADO
 	$usuario = new Empregado();
-	echo $usuario;
+	// echo $usuario;
 
 
 	// ROTA PARA ACESSAR A LISTA DE EMPRESAS
@@ -69,6 +69,15 @@
 
 	//$hist->setHistorico("edu.chuman@hotmail.com");
 	//echo $hist;
+
+	// SIMULAÇÃO DE CADASTRO DE ACESSO NAS PÁGINAS DA ESTEIRA
+	$tpAcao = "TESTE";
+	$nmPagina = "INDEX DA PASTA EMAIL CLIENTE ESTEIRA (HOMOLOGAÇÃO)";
+	$novoAcesso = new Acesso($tpAcao, $nmPagina);
+
+	$novoAcesso->registraAcessoPagina($usuario);
+	// var_dump($novoAcesso);
+
 
 	?>
 	<!-- INICIO DO FORMULÁRIO DE CAPTURA DE ID -->

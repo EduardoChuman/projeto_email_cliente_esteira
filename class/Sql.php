@@ -86,15 +86,15 @@ class Sql extends PDO {
 
 	public function beginTransaction()
 	{
-		 return $this->conn->beginTransaction();
+		return $this->conn->beginTransaction();
 	}
 	public function rollBack()
 	{
-		 return $this->conn->rollBack();
+		return $this->conn->rollBack();
 	}
 	public function commit()
 	{
-		 return $this->conn->commit();
+		return $this->conn->commit();
 	}
     
 }
